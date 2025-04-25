@@ -1,0 +1,12 @@
+torch==2.5.1
+torchvision
+# For graphs
+graphviz
+matplotlib
+seaborn
+# others
+tensorboard
+transformers
+pyarrow
+datasets
+psutil
