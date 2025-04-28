@@ -75,6 +75,7 @@ class StageRuntime:
         # computed from the forward pass for the backward pass.
         # Not for reducing memory but to make sure tensor versions are correct for backward in pytorch >= 1.5.0
         self.enable_recompute = enable_recompute
+        assert self.enable_recompute, "Recompute should be enabled to use pipedream with pytorch >= 1.5.0"
 
         # Disable recomputation for the last stage.
         if self.is_criterion:

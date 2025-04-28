@@ -8,19 +8,17 @@ model="--module models.gptn.gpus=$ngpus --block_size 512 --n_embd 768 --n_head 1
 d="wikitext-103-v1"
 outdir=""$d"_gptn_512_768_12_8_b8"
 lr="--lr 3e-4 --lr_warmup --optimizer nadamw"
-logtb="--log_tb --tb_dir ~/async-pp-icml/runs"
+logtb="--log_tb --tb_dir ./runs"
 cg="--clip_grad 10"
 basecmdstr="python main_with_runtime.py $model $batch -d $d --master_addr localhost --distributed_backend gloo 
 $lr $epochs $minibatches $cg $logtb --recompute --lr_policy cosine"
 
-# Ours, 
-method="--momentum 0.99"   #"--adaptive_momentum"
-lrcor=""    #"--lr_correction --lr_correction_epoch 6"
-expname="$outdir/gpus=$ngpus/nag/"
-ckptdir="$HOME/async-pp-icml/$d/$expname"    
-master_port="--master_port 1111"
+# Ours 
+method="--momentum 0.99 --optimizer nadamw"   
+expname="$outdir/gpus=$ngpus/ours/"
+ckptdir="$d/$expname"    
 mkdir -p $ckptdir   # create checkpoint directory if not exists
-cmdstr="$basecmdstr $method $lrcor --exp_name $expname --checkpoint_dir $ckptdir $master_port"
+cmdstr="$basecmdstr $method --exp_name $expname --checkpoint_dir $ckptdir"
 for rank in $(seq 0 $(($ngpus-1))); do
     cmd="$cmdstr --rank $rank --local_rank $(($rank % $nnodes)) &"
     echo $cmd
@@ -34,12 +32,10 @@ $lr $epochs $minibatches $cg $logtb --recompute --lr_policy cosine --optimizer a
 
 # gpipe
 method="--sync_schedule gpipe --num_microbatches 4"
-lrcor=""    #"--lr_correction --lr_correction_epoch 6"
 expname="$outdir/gpus=$ngpus/gpipe/"
-ckptdir="$HOME/async-pp-icml/$d/$expname"    
-master_port="--master_port 2222"
+ckptdir="$d/$expname"    
 mkdir -p $ckptdir   # create checkpoint directory if not exists
-cmdstr="$basecmdstr $method $lrcor --exp_name $expname --checkpoint_dir $ckptdir $master_port"
+cmdstr="$basecmdstr $method --exp_name $expname --checkpoint_dir $ckptdir"
 for rank in $(seq 0 $(($ngpus-1))); do
     cmd="$cmdstr --rank $rank --local_rank $(($rank % $nnodes)) &"
     echo $cmd

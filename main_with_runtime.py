@@ -298,8 +298,8 @@ def main():
 
     exp_name = args.exp_name + str(time.time())
     # do it here as stages are set above
-    if args.log_tb and (is_last_stage() or is_first_stage()):
-        _tb = SummaryWriter(log_dir=os.path.join(args.tb_dir, f"{exp_name}_last" if is_last_stage() else f"{exp_name}_first"))
+    if args.log_tb and is_last_stage():
+        _tb = SummaryWriter(log_dir=os.path.join(args.tb_dir, exp_name))
         _tb.add_text('config', json.dumps(vars(args), sort_keys=True, indent=4))
 
 
@@ -435,8 +435,6 @@ def train(train_loader, r, optimizer, epoch, du):
     if args.num_minibatches is not None:
         n = min(n, args.num_minibatches)
     r.train(n)
-    # if not is_first_stage(): train_loader = None
-    # r.set_loader(train_loader)
     r.set_batch_sampler(du.get_batch if is_first_stage() else None, is_eval=False)
 
     # reset weight stashes
@@ -541,8 +539,6 @@ def validate(val_loader, r, epoch, du):
     if args.num_eval_minibatches is not None:
         n = min(n, args.num_eval_minibatches)
     r.eval(n)
-    # if not is_first_stage(): val_loader = None
-    # r.set_loader(val_loader)
     r.set_batch_sampler(du.get_batch if is_first_stage() else None, is_eval=True)
 
     end = time.time()

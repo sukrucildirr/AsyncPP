@@ -361,7 +361,7 @@ def main():
     exp_name = args.exp_name + str(time.time())
     # do it here as stages are set above
     if args.log_tb and is_last_stage():
-        _tb = SummaryWriter(log_dir=os.path.join(args.tb_dir, f"{exp_name}_last" if is_last_stage() else f"{exp_name}_first"))
+        _tb = SummaryWriter(log_dir=os.path.join(args.tb_dir, exp_name))
         _tb.add_text('config', json.dumps(vars(args), sort_keys=True, indent=4))
 
     # if specified, resume from checkpoint
