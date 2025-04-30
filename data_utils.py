@@ -86,7 +86,7 @@ class WikiTextDataset(TextDataset):
 class OpenWebTextDataset(TextDataset):
     def __init__(self, root, tokenizer, train=True, block_size=256):
         split = 'train' if train else 'test'
-        dataset = load_dataset('openwebtext')
+        dataset = load_dataset('openwebtext', trust_remote_code=True)
         dataset = dataset['train'].train_test_split(test_size=0.1, seed=42)[split]
         super(OpenWebTextDataset, self).__init__(dataset, tokenizer, block_size)
 
@@ -94,7 +94,7 @@ class OpenWebTextDataset(TextDataset):
 class BookCorpusDataset(TextDataset):
     def __init__(self, root, tokenizer, train=True, block_size=256):
         split = 'train' if train else 'test'
-        dataset = load_dataset('bookcorpus/bookcorpus')
+        dataset = load_dataset('bookcorpus/bookcorpus', trust_remote_code=True)
         dataset = dataset['train'].train_test_split(test_size=0.1, seed=42)[split]
         super(BookCorpusDataset, self).__init__(dataset, tokenizer, block_size)
 
