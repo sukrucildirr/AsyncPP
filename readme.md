@@ -1,6 +1,6 @@
 # Asynchronous Pipeline Parallel
 
-This is the official implementation of the ICML 2025 paper "Nesterov Method for Asynchronous Pipeline Parallel Optimization".
+This is the official implementation of the ICML 2025 paper [Nesterov Method for Asynchronous Pipeline Parallel Optimization](http://arxiv.org/abs/2505.01099).
 
 ## Instructions
 First install `requirements.txt` and simply run the bash script `run.bash`.
