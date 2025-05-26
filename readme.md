@@ -21,7 +21,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ```
 @article{ajanthan2025asyncpp,
   title={Nesterov Method for Asynchronous Pipeline Parallel Optimization},
-  author={Ajanthan, Thalaiyasingam and Ramasinghe, Sameera and Avraham, Gil and Zuo, Yan and Long, Alexander},
+  author={Ajanthan, Thalaiyasingam and Ramasinghe, Sameera and Zuo, Yan and Avraham, Gil and Long, Alexander},
   journal={ICML},
   year={2025}
 }
